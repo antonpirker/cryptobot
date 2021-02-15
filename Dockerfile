@@ -27,7 +27,7 @@ RUN \
 RUN printenv 
 
 # Seed database
-RUN PGPASSWORD=$WDPR_DB_PASSWORD psql -v -U $WDPR_DB_USERNAME -h $WDPR_DB_HOST -p $WDPR_DB_PORT -d $WDPR_DB_DATABASE -f database.sql;
+RUN PGPASSWORD=$WDPR_DB_PASSWORD psql -v -U $WDPR_DB_USERNAME -h postgres12.wdpr.run -p $WDPR_DB_PORT -d $WDPR_DB_DATABASE -f database.sql;
 
 
 EXPOSE 8000
