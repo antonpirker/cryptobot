@@ -12,16 +12,16 @@ FROM python:3
 
 WORKDIR /app
 
-RUN mkdir -p /root/.jupyter && pip install jupyter -U && pip install jupyterlab -U
-
-COPY jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
-
 COPY *.py ./
+COPY *.sql ./
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+# Seed database
+RUN PGPASSWORD=$WDPR_DB_PASSWORD psql -v -U $WDPR_DB_USERNAME -h $WDPR_DB_HOST -p $WDPR_DB_PORT -d $WDPR_DB_DATABASE -f database.sql;
+
+# Install requirements
+#RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-#CMD ["jupyter", "lab","--ip=0.0.0.0","--allow-root"]
 CMD ["python", "status.py"]

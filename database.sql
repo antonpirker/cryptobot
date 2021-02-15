@@ -3,9 +3,9 @@
 -- setup database and user
 --
 
-create user cryptobot with login createdb password 'cryptobot';
+-- create user cryptobot with login createdb password 'cryptobot';
 
-create database cryptobot owner cryptobot;
+-- create database cryptobot owner cryptobot;
 
 
 --
