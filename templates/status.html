@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Cryptobot Status</title>
+    <style>
+        * {
+            color: #333;
+            font-family: Helvetica, Verdana, Arial, sans-serif;
+        }
+        span.timestamp {
+            color: lightgrey;
+        }
+        span.gain {
+            color: darkgreen;
+            white-space: nowrap;
+        }
+        span.loss {
+            color: darkred;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cryptobot Status</h1>
+    <section id="total">
+        <h2>Balance (estimated):</h2>
+        <ul>
+            <li>{{ balance_currency }} {{ balance|round(2) }}</li>
+        </ul>
+    </section>
+<!--
+    <section id="balances">
+        <h2>Last Balances:</h2>
+        <ul>
+            <li>USD 12,213.33 <span class="timestamp">2018-04-12 23:23</span></li>
+            <li>USD 10,213.99 <span class="timestamp">2018-03-11 16:11</span></li>
+            <li>USD  9,213.33 <span class="timestamp">2018-02-10 07:11</span></li>
+            <li>USD  7,213.33 <span class="timestamp">2018-01-01 11:11</span></li>
+            <li>USD  8,663.81 <span class="timestamp">2018-01-01 11:11</span></li>
+        </ul>
+    </section>
+-->
+    <section id="trades">
+        <h2>Last trades:</h2>
+        <ul>
+            {% for trade in trades %}
+            <li><span class="sell">{% if trade.1 == 'Sell' %}sold{% endif %}{% if trade.1 == 'Buy' %}bought{% endif %}</span>
+                <span class="amount">{{ trade.3 }}</span> <span class="ammount-currency">{{ trade.4 }}</span> for
+                <span class="price">{{ trade.5|round(2) }}</span> <span class="price-currency">{{ trade.6 }}</span>
+                {% if trade.7 %}<span class="{% if trade.7 > 0 %}gain{% else %}loss{% endif %}">{{ trade.7|round(2) }} {{ trade.6 }}</span>{% endif %}
+                <span class="timestamp">{{ trade.0 }}</span></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="timestamp">
+        <h2>Last update:</h2>
+        <ul>
+            <li>{{ now }}</li>
+        </ul>
+    </section>
+</body>
+</html>
