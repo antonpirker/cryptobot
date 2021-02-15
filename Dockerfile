@@ -39,7 +39,8 @@ RUN \
  apk --purge del .build-deps
 
 # debug
-RUN printenv 
+RUN printenv | sort > bla.txt
+RUN cat bla.txt
 
 # Seed database
 RUN PGPASSWORD=$WDPR_DB_PASSWORD psql -v -U $WDPR_DB_USERNAME -h $WDPR_DB_HOST -p $WDPR_DB_PORT -d $WDPR_DB_DATABASE -f database.sql;
