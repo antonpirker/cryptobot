@@ -16,16 +16,16 @@ COPY *.py ./
 COPY *.sql ./
 COPY requirements.txt .
 
-# Seed database
+# Install requirements
 RUN \
-    apk add --no-cache postgresql-libs && \
-    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
-    apk --purge del .build-deps
+ apk add --no-cache postgresql-libs postgresql-client && \
+ apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
+ python3 -m pip install -r requirements.txt --no-cache-dir && \
+ apk --purge del .build-deps
 
+# Seed database
 RUN PGPASSWORD=$WDPR_DB_PASSWORD psql -v -U $WDPR_DB_USERNAME -h $WDPR_DB_HOST -p $WDPR_DB_PORT -d $WDPR_DB_DATABASE -f database.sql;
 
-# Install requirements
-#RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
